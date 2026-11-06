@@ -76,6 +76,23 @@ bước 11:
 ![alt text](image-10.png)
 ![alt text](image-11.png)
 ![alt text](image-12.png)
-![alt text](image-13.png)
+### Luồng thông điệp
+
+- Client gửi `GET /api/assignments` đến API và nhận lại danh sách bài tập. Đây là mô hình request–response.
+- Client gửi `POST /api/submissions` kèm thông tin bài nộp đến API và nhận lại mã lượt nộp cùng trạng thái `received`. Đây là mô hình request–response.
+
+### Phần đã tham khảo
+
+Tôi đã tham khảo cấu trúc và cách giao tiếp HTTP của dự án mẫu MiniDistributedSystem. Tôi được Codex hỗ trợ viết Submission.Client và hướng dẫn viết Submission.Api.
+
+bước 12:
+
+- API lưu lượt nộp trong danh sách và cho phép tra cứu theo ID.
+- Đã kiểm tra POST trả 201, GET lượt nộp vừa tạo trả 200 và GET ID không tồn tại trả 404. Client đọc lại lượt nộp và in trạng thái received.
+- Dữ liệu lưu trong bộ nhớ, sẽ mất khi API khởi động lại. Kiểm thử dùng cổng 18583.
+- Codex hỗ trợ thực hiện Bước 12 và kiểm thử.
+
+![Kết quả đọc lại lượt nộp qua API](bai12-doc-lai.png)
+
 
 ## 7. Khó khăn gặp phải và cách giải quyết
