@@ -1,8 +1,11 @@
 # Bài 1 Tổng quan hệ thống và MEP
 
-Họ tên: **Phan Đức Anh**  
-MSSV: **DTC245200318**  
-Lớp: **CNTT K23D**  
+Họ tên: **Phan Đức Anh**
+
+MSSV: **DTC245200318**
+
+Lớp: **CNTT K23D**
+
 Ngày thực hành: **06/11/2026**
 
 Bài thực hành xây dựng hệ thống EduSubmit gồm API và Client độc lập, giao tiếp

@@ -1,8 +1,11 @@
 # EduSubmit Bài 1
 
-Họ tên: **Phan Đức Anh**  
-MSSV: **DTC245200318**  
-Lớp: **CNTT K23D**  
+Họ tên: **Phan Đức Anh**
+
+MSSV: **DTC245200318**
+
+Lớp: **CNTT K23D**
+
 Học phần: **Phát triển ứng dụng phân tán**
 
 EduSubmit gồm hai tiến trình độc lập: `Submission.Api` và `Submission.Client`,
