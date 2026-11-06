@@ -93,8 +93,8 @@ Build trước, dừng API đang chạy, đặt breakpoint ở dòng
 chọn **Debug BasicWebApi**, nhấn F5 rồi gửi POST trong file HTTP của ví dụ.
 F10 chạy từng dòng, F5 chạy tiếp, Shift+F5 dừng debug.
 
-Đã kiểm chứng điểm dừng, xem biến request, Step Over và Continue. Ảnh giao diện
-REST Client và debugger được chèn trong nhật ký.
+Đã kiểm chứng điểm dừng, xem biến request, Step Over và Continue. Kết quả REST
+Client và debugger được trình bày bằng văn bản, JSON và bảng trong nhật ký.
 
 ## Nộp bài
 

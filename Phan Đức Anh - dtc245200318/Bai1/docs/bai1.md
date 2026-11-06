@@ -28,9 +28,17 @@ khẳng định các bước đã được sinh viên tự gõ hoặc tự thao 
 Bằng chứng: [log kiểm thử](evidence/verification.txt),
 [Hello World](evidence/environment.txt), [build solution](evidence/EduSubmit-slnx-build.txt).
 
-Ảnh chụp log môi trường đã chạy trong VS Code:
+Kết quả kiểm tra môi trường đã chạy:
 
-![Phiên bản SDK Git và Hello World](evidence/01-moi-truong.png)
+```text
+SDK: 10.0.403
+Git: git version 2.56.0.windows.4
+HelloPtudpt:
+Hello, World!
+Build succeeded.
+0 Warning(s)
+0 Error(s)
+```
 
 ## 2 MepDemo Bước 7
 
@@ -79,20 +87,56 @@ Bằng chứng: [log HTTP và kiểm tra](evidence/verification.txt),
 [log API](evidence/basic-api.txt). File thử tay:
 [requests.http](../samples/BasicWebApi/requests.http).
 
-Ảnh chụp log kiểm thử HTTP thật có các phản hồi 200, 201, 400:
-
-![Kết quả HTTP 200 201 400](evidence/02-http-200-201-400.png)
-
 Đã thử trực tiếp bằng extension REST Client trong VS Code sau khi thư mục được
-xác nhận Trust. Các phản hồi được chụp từ cửa sổ Response:
+xác nhận Trust. Trích các nội dung phản hồi thực tế:
 
-![REST Client GET trả 200 OK](evidence/06-rest-client-200.png)
+**GET trạng thái ứng dụng**
 
-![REST Client POST hợp lệ trả 201 Created và Location](evidence/07-rest-client-201.png)
+```text
+GET http://localhost:5081/
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
 
-![REST Client tên rỗng trả 400 Bad Request](evidence/08-rest-client-400.png)
+{"application":"BasicWebApi"}
+```
 
-![REST Client lời chào tiếng Nhật](evidence/09-rest-client-ja.png)
+**POST tạo lời chào hợp lệ**
+
+```text
+POST http://localhost:5081/greetings
+Content-Type: application/json
+
+{"name":"Binh","language":"vi"}
+
+Phản hồi:
+HTTP/1.1 201 Created
+Location: /greetings/1
+
+{"id":1,"name":"Binh","message":"Xin chao, Binh!"}
+```
+
+**POST với tên rỗng**
+
+```text
+POST http://localhost:5081/greetings
+Content-Type: application/json
+
+{"name":"","language":"vi"}
+
+Phản hồi:
+HTTP/1.1 400 Bad Request
+
+{"message":"Name must not be empty."}
+```
+
+**GET lời chào tiếng Nhật**
+
+```text
+GET http://localhost:5081/hello/An?language=ja
+HTTP/1.1 200 OK
+
+{"message":"Konnichiwa, An!"}
+```
 
 **Thực hành debug Bước 8.6:** đã chạy cấu hình Debug BasicWebApi và đặt điểm dừng
 tại dòng 15 `var greeting = service.Create(...)`. Khi gửi POST từ REST Client,
@@ -101,11 +145,15 @@ Step Over chuyển sang dòng 16, biến greeting có `Id = 1`, `Name = Binh`,
 `Message = Xin chao, Binh!`. Bấm Continue hoàn tất POST với **201 Created** và
 `Location: /greetings/1`, sau đó dừng phiên debug bằng Stop.
 
-![Debugger dừng tại breakpoint và hiển thị request](evidence/10-debug-breakpoint.png)
+| Thao tác debug | Vị trí dừng | Giá trị hoặc kết quả quan sát |
+| --- | --- | --- |
+| Gửi POST hợp lệ khi có breakpoint | Program.cs dòng 15 | request.Name = Binh; request.Language = vi; greeting chưa được tạo |
+| Bấm Step Over | Program.cs dòng 16 | greeting.Id = 1; greeting.Name = Binh; greeting.Message = Xin chao, Binh! |
+| Bấm Continue | API chạy tiếp | REST Client nhận 201 Created, Location: /greetings/1 và JSON của greeting |
+| Bấm Stop | Kết thúc phiên debug | Tiến trình BasicWebApi được dừng |
 
-![Step Over tạo được đối tượng greeting](evidence/11-debug-step-over.png)
-
-![POST trả 201 sau khi chạy tiếp debugger](evidence/12-debug-response-201.png)
+Thời gian phản hồi POST trong phiên debug dài hơn bình thường vì chương trình
+được giữ tại breakpoint để xem biến; sau Continue yêu cầu vẫn hoàn tất với 201.
 
 ## 4 MiniDistributedSystem Bước 9
 
@@ -129,11 +177,26 @@ bị chiếm mà không sửa và biên dịch lại code.
 Bằng chứng: [API](evidence/mini-api.txt), [client lần 1](evidence/mini-client-1.txt),
 [client lần 2](evidence/mini-client-2.txt).
 
-Ảnh chụp hai file log của tiến trình API và Client:
+Trích log của hai tiến trình độc lập:
 
-![Log Submission Api đang lắng nghe](evidence/05-mini-api.png)
+**Tiến trình API**
 
-![Log Submission Client nhận bài tập và nộp bài](evidence/04-mini-client.png)
+```text
+Now listening on: http://localhost:5000
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Production
+```
+
+**Tiến trình Client lần thứ nhất**
+
+```text
+Danh sach bai tap:
+  - 1: Bai tap 1
+  - 2: Bai tap 2
+POST /api/submissions -> 201 Created
+Da nop bai. Ma luot nop: 083a0577-6203-480d-9e9e-a21e12512dcd
+Trang thai: received
+```
 
 ## 5 Thí nghiệm lỗi Bước 10
 
@@ -193,7 +256,18 @@ MiniDistributedSystem gốc để đối chiếu; bản trong samples được d
 Bằng chứng: [log client](evidence/edusubmit-client.txt),
 [log máy chủ](evidence/edusubmit-api.txt), [log kiểm thử](evidence/verification.txt).
 
-![Client EduSubmit nộp bài và đọc lại thành công](evidence/03-edusubmit-client.png)
+Kết quả Client EduSubmit đã chạy:
+
+```text
+Danh sach bai tap:
+  - 1: Bai tap 1
+  - 2: Bai tap 2
+POST /api/submissions -> 201 Created
+Da nop bai. Ma luot nop: 21a6223a-3c3c-4031-b2f7-915c6cdd06c2
+Trang thai: received
+GET /api/submissions/21a6223a-3c3c-4031-b2f7-915c6cdd06c2 -> 200 OK
+Doc lai: 21a6223a-3c3c-4031-b2f7-915c6cdd06c2 | DTC245200318 | received
+```
 
 ## 7 Khó khăn và cách giải quyết
 
@@ -221,10 +295,10 @@ request và điều kiện chấm giữ nguyên. Đây là kiểm tra tương th
 không phải điểm chấm cuối cùng của giảng viên.
 Bằng chứng: [class-grader.json](evidence/class-grader.json).
 
-Các ảnh 01–05 chụp log chạy thật trong trình soạn thảo VS Code; ảnh 06–09 chụp
-phản hồi trong REST Client; ảnh 10–12 chụp phiên debug thực tế. Thư mục đã được
-người dùng xác nhận Trust, các extension và debugger đã hoạt động. Các phản hồi
-HTTP được kiểm chứng cả bằng HttpClient trong script và trực tiếp qua REST Client.
+Kết quả thực hành, phản hồi HTTP và diễn biến phiên debug được ghi trực tiếp
+trong nhật ký bằng văn bản, khối kết quả và bảng. Thư mục đã được người dùng xác
+nhận Trust, các extension và debugger đã hoạt động. Các phản hồi HTTP được kiểm
+chứng cả bằng HttpClient trong script và trực tiếp qua REST Client.
 Log build cuối sau khi nạp thêm mẫu BasicWebApi vào solution:
 [final-solution-build.txt](evidence/final-solution-build.txt).
 

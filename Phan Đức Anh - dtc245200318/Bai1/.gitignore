@@ -6,3 +6,4 @@
 .runtime/
 .experiments/
 *.zip
+docs/evidence/*.png
