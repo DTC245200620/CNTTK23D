@@ -21,6 +21,9 @@ Lớp: CNTT K23D
  
 ## 4. MiniDistributedSystem (Bước 9)
 - Ảnh chụp 2 terminal API + Client
+<img width="1920" height="1140" alt="{4489A74F-4AB3-4F88-96DA-93B719C91A76}" src="https://github.com/user-attachments/assets/91e6939f-9180-422a-b342-826a3b89ca6b" />
+<img width="1920" height="1140" alt="{8858C60C-2031-4D69-A4D8-F70CF2BC016D}" src="https://github.com/user-attachments/assets/2d8692d1-a7a9-4022-a873-c90bc723d9ea" />
+
 - Trả lời 3 câu hỏi
  
 ## 5. Thí nghiệm lỗi (Bước 10)
