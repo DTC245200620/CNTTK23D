@@ -100,7 +100,10 @@ Bài mở rộng (Bước 12):
 - Thêm `GET /api/submissions/{id:guid}`: trả 200 nếu tìm thấy, 404 nếu không có.
 - Client đọc lại lượt nộp vừa tạo và in ra.
 
-Phần đã phải xem code mẫu: (tự điền)
+Phần đã phải xem code mẫu: 
+- Đối chiếu với D:\Code_demo\Bai1\MiniDistributedSystem\src khi viết phần kiểm tra dữ liệu (400 Bad Request) và cách trả Results.Created kèm header Location.
+- Phía Client: xem lại cách dùng GetFromJsonAsync, PostAsJsonAsync, ReadFromJsonAsync.
+- Có dùng trợ lý AI để hỗ trợ viết code và kiểm tra lỗi; sau đó đã đọc lại và chạy thử từng endpoint.
 
 Luồng thông điệp:
 
@@ -112,4 +115,7 @@ Client --(HTTP GET /api/submissions/{id})--> Api : request-response (200 / 404)
 
 ## 7. Khó khăn gặp phải và cách giải quyết
 
-(tự điền)
+- Lần đầu chạy client báo lỗi "actively refused it" vì chưa chạy API trước. Cách giải quyết: chạy API ở Terminal 1, chờ dòng "Now listening on: http://localhost:5000" rồi mới chạy client.
+- Nộp bài lần đầu chỉ upload file nhật ký và ảnh, thiếu code (src, requests.http, .slnx). Cách giải quyết: commit bổ sung toàn bộ dự án EduSubmit vào thư mục Bai1, PR tự cập nhật.
+- Chưa quen với quy trình Fork + Pull Request trên GitHub. Cách giải quyết: đọc lại hướng dẫn nộp bài, làm theo từng bước Fork → Upload → Open pull request.
+- Trong PowerShell, lệnh curl không chạy như mong đợi. Cách giải quyết: dùng curl.exe thay cho curl (theo Phụ lục 1).
