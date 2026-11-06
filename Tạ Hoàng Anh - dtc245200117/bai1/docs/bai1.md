@@ -40,16 +40,42 @@ POST hợp lệ trả Results.Created với mã 201 vì yêu cầu đã tạo th
  
 ## 4. MiniDistributedSystem (Bước 9)
 - Ảnh chụp 2 terminal API + Client
+![alt text](image-5.png)
+![alt text](image-7.png)
+![alt text](image-6.png)
 - Trả lời 3 câu hỏi
- Z
+1. Client gọi hai endpoint của API:
+- GET http://localhost:5000/api/assignments — Client yêu cầu danh sách bài tập. API trả 200 OK cùng danh sách bài tập.
+- POST http://localhost:5000/api/submissions — Client gửi thông tin nộp bài. Với dữ liệu hợp lệ, API trả 201 Created cùng thông tin lượt nộp. Nếu dữ liệu không hợp lệ, API trả 400 Bad Request.
+Mỗi lần gọi gồm một request từ Client và một response từ API.
+
+2. Client không tham chiếu trực tiếp code của API. Hai bên thống nhất với nhau qua hợp đồng giao tiếp, gồm đường dẫn endpoint, phương thức HTTP và cấu trúc dữ liệu JSON. Client tự khai báo các record có cấu trúc tương ứng với dữ liệu API gửi và nhận.
+
+3. Địa chỉ API được truyền qua tham số để có thể thay đổi máy chủ hoặc cổng khi chạy Client mà không cần sửa code. Nếu không truyền tham số, Client dùng mặc định http://localhost:5000. Dấu -- cho dotnet run biết phần sau là tham số truyền vào chương trình Client.
+ 
  
 ## 5. Thí nghiệm lỗi (Bước 10)
 | # | Dự đoán | Thực tế | Đúng/Sai | Giải thích |
+| --- | --- | --- | --- | --- |
+| a | Client hiện thêm bài 3, không cần sửa code. | Client in đủ 3 bài, nộp bài thành công. | Đúng | API trả mảng JSON có thêm phần tử, Client đọc và duyệt danh sách theo hợp đồng dữ liệu. |
+| b | Client báo lỗi kết nối khi API tắt. | HttpRequestException, kết nối bị từ chối (SocketException 10061). | Đúng | API không còn lắng nghe nên kết nối HTTP thất bại. Hàm trong cùng chương trình cũng có thể lỗi, nhưng không phụ thuộc kết nối mạng. |
+| c | API trả 400, Client phát sinh lỗi. | API trả 400 Bad Request; EnsureSuccessStatusCode phát sinh HttpRequestException. | Đúng | Mã sinh viên rỗng không hợp lệ. Máy chủ phải tự kiểm tra dữ liệu nhận được từ Client. |
+| d | Sai cổng gây lỗi; truyền đúng cổng giúp Client chạy. | Gọi 15000 bị từ chối; truyền 15050 thì Client nhận danh sách và nộp bài thành công. | Đúng | Địa chỉ API được truyền qua tham số dòng lệnh, nên có thể đổi cổng mà không sửa code. |
+
+Thí nghiệm chạy trên bản sao dự án. Do cổng 5000 đang được sử dụng, dùng cổng 15000 và 15050 tương ứng với 5000 và 5050 trong hướng dẫn.
+
  
 ## 6. Dự án EduSubmit tự làm (Bước 11-12)
 - Ảnh chụp kết quả; phần nào phải xem code mẫu?
 - Luồng thông điệp:
   Client --(HTTP GET /api/assignments)--> Api   : request-response
   Client --(HTTP POST /api/submissions)--> Api  : ...
- 
+bước 11:
+![alt text](image-8.png)
+![alt text](image-9.png)
+![alt text](image-10.png)
+![alt text](image-11.png)
+![alt text](image-12.png)
+![alt text](image-13.png)
+
 ## 7. Khó khăn gặp phải và cách giải quyết
