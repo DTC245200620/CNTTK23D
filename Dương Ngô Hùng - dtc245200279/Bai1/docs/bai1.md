@@ -8,7 +8,7 @@ Họ tên: Dương Ngô Hùng   MSSV: dtc245200279   Lớp: CNTT K23D
 - `git --version` → `git version 2.55.0.windows.4`
 - VS Code extension: C# Dev Kit, C#, .NET Install Tool, REST Client
 
-<!-- Chèn ảnh: ![Kiểm tra môi trường](cai-dat.png) -->
+![Kiểm tra môi trường: dotnet, git, Hello World](cai-dat.png)
 
 ## 2. MepDemo
 
@@ -32,7 +32,11 @@ Kết quả gửi request (`requests.http`):
 | `POST /greetings` `{"name":"Binh"}` | 201 Created, header `Location: /greetings/1` |
 | `POST /greetings` `{"name":""}` | 400 Bad Request, `Name must not be empty.` |
 
-<!-- Chèn ảnh REST Client: ![200](bwa-200.png) ![201](bwa-201.png) ![400](bwa-400.png) -->
+![REST Client - GET / trả 200](bwa-200.png)
+
+![REST Client - POST /greetings trả 201 + Location](bwa-201.png)
+
+![REST Client - POST /greetings tên rỗng trả 400](bwa-400.png)
 
 **Câu 1:** `builder.Services.AddSingleton<GreetingService>()` phải đứng **trước** `var app = builder.Build();`. Dịch vụ phải được đăng ký vào DI container trong pha chuẩn bị; sau khi `Build()` thì danh sách dịch vụ đã bị khóa, không thêm được nữa.
 
@@ -52,7 +56,7 @@ Da nop bai. Ma luot nop: <GUID>
 Trang thai: received
 ```
 
-<!-- Chèn ảnh 2 terminal: ![MiniDistributedSystem](mini-2-terminal.png) -->
+![MiniDistributedSystem: Terminal 1 API, Terminal 2 Client](mini-2-terminal.png)
 
 1. **Client gọi những endpoint nào?**
    - `GET /api/assignments` → `200 OK`, trả mảng bài tập.
@@ -98,7 +102,7 @@ Trang thai: received
 Doc lai luot nop: 6983be40-6895-4381-aac0-ba98b137d8c0 | bai 1 | dtc245200279 | received | 2026-11-06 05:02:59Z
 ```
 
-<!-- Chèn ảnh 2 terminal: ![EduSubmit](edusubmit-2-terminal.png) -->
+![EduSubmit: Terminal 1 API, Terminal 2 Client](edusubmit-2-terminal.png)
 
 **Luồng thông điệp:**
 
