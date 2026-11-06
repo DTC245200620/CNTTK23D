@@ -11,6 +11,12 @@ Lớp: CNTT K23D
  
 ## 3. BasicWebApi (Bước 8)
 - Ảnh chụp REST Client: 200, 201, 400
+Ảnh request 200
+<img width="1920" height="1140" alt="{CEBEB182-17C3-4B13-8A8F-0B07B702724A}" src="https://github.com/user-attachments/assets/c8db4204-6bc2-4335-bdbf-d96838c1aa43" />
+<img width="1920" height="1140" alt="{1DC020B7-77A8-4303-BE02-4D2B59864B69}" src="https://github.com/user-attachments/assets/ae9eac63-3023-4c35-bfb5-165563ad38d3" />Ảnh request 201
+<img width="1920" height="1140" alt="{412631B3-F767-41BE-8B54-343EFA68BE2A}" src="https://github.com/user-attachments/assets/a5d24b30-13d5-4f12-bd0a-0bb86763bd3e" />Ảnh request 400
+<img width="1920" height="1140" alt="{FAC67DF3-5B7F-4A42-BEF4-508E0BE85257}" src="https://github.com/user-attachments/assets/a289df59-a620-4879-8f17-a8e8a7440265" />
+
 - Trả lời 3 câu hỏi mục 8.4
  
 ## 4. MiniDistributedSystem (Bước 9)
