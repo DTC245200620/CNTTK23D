@@ -86,10 +86,15 @@ Thư mục tạm, `bin` và `obj` không thuộc bài nộp.
 
 ## Debug
 
+BasicWebApi được nạp trong nhóm samples của solution để xem và debug mã mẫu.
+
 Build trước, dừng API đang chạy, đặt breakpoint ở dòng
 `var greeting = service.Create(...)` trong ví dụ BasicWebApi. Mở Run and Debug,
 chọn **Debug BasicWebApi**, nhấn F5 rồi gửi POST trong file HTTP của ví dụ.
 F10 chạy từng dòng, F5 chạy tiếp, Shift+F5 dừng debug.
+
+Đã kiểm chứng điểm dừng, xem biến request, Step Over và Continue. Ảnh giao diện
+REST Client và debugger được chèn trong nhật ký.
 
 ## Nộp bài
 

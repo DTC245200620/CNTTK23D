@@ -83,6 +83,30 @@ Bằng chứng: [log HTTP và kiểm tra](evidence/verification.txt),
 
 ![Kết quả HTTP 200 201 400](evidence/02-http-200-201-400.png)
 
+Đã thử trực tiếp bằng extension REST Client trong VS Code sau khi thư mục được
+xác nhận Trust. Các phản hồi được chụp từ cửa sổ Response:
+
+![REST Client GET trả 200 OK](evidence/06-rest-client-200.png)
+
+![REST Client POST hợp lệ trả 201 Created và Location](evidence/07-rest-client-201.png)
+
+![REST Client tên rỗng trả 400 Bad Request](evidence/08-rest-client-400.png)
+
+![REST Client lời chào tiếng Nhật](evidence/09-rest-client-ja.png)
+
+**Thực hành debug Bước 8.6:** đã chạy cấu hình Debug BasicWebApi và đặt điểm dừng
+tại dòng 15 `var greeting = service.Create(...)`. Khi gửi POST từ REST Client,
+API dừng tại breakpoint; biến request có `Name = Binh`, `Language = vi`. Bấm
+Step Over chuyển sang dòng 16, biến greeting có `Id = 1`, `Name = Binh`,
+`Message = Xin chao, Binh!`. Bấm Continue hoàn tất POST với **201 Created** và
+`Location: /greetings/1`, sau đó dừng phiên debug bằng Stop.
+
+![Debugger dừng tại breakpoint và hiển thị request](evidence/10-debug-breakpoint.png)
+
+![Step Over tạo được đối tượng greeting](evidence/11-debug-step-over.png)
+
+![POST trả 201 sau khi chạy tiếp debugger](evidence/12-debug-response-201.png)
+
 ## 4 MiniDistributedSystem Bước 9
 
 Đã chạy API và Client ở hai tiến trình. Client in hai bài tập, GUID lượt nộp và
@@ -183,6 +207,8 @@ Bằng chứng: [log client](evidence/edusubmit-client.txt),
   thử với quyền cho phép kết nối localhost; không đổi chính sách bảo mật máy.
 - Đổi cổng hoặc tắt API gây lỗi thật như dự đoán; giải quyết bằng khởi động API
   và truyền đúng URL thay vì viết cứng địa chỉ.
+- API đang chạy khóa DLL khi build lại: dừng các API kiểm thử rồi build lại
+  solution; lần build cuối thành công với 0 warning và 0 error.
 
 Kết quả kiểm tra chức năng lần hoàn thành: **ALL 50 CHECKS PASSED**. Cả bốn nhóm
 project đã build thành công, không có warning hay error. Log build và kiểm thử
@@ -195,11 +221,12 @@ request và điều kiện chấm giữ nguyên. Đây là kiểm tra tương th
 không phải điểm chấm cuối cùng của giảng viên.
 Bằng chứng: [class-grader.json](evidence/class-grader.json).
 
-Các ảnh trên là ảnh chụp log chạy thật trong trình soạn thảo VS Code. Chưa có
-ảnh từ giao diện REST Client hoặc phiên dừng tại breakpoint: VS Code đang ở
-Restricted Mode và cần người dùng xác nhận Trust để bật các extension và debug.
-File requests.http và cấu hình debug đã chuẩn bị sẵn; các phản hồi HTTP được
-kiểm chứng tự động bằng HttpClient trong script.
+Các ảnh 01–05 chụp log chạy thật trong trình soạn thảo VS Code; ảnh 06–09 chụp
+phản hồi trong REST Client; ảnh 10–12 chụp phiên debug thực tế. Thư mục đã được
+người dùng xác nhận Trust, các extension và debugger đã hoạt động. Các phản hồi
+HTTP được kiểm chứng cả bằng HttpClient trong script và trực tiếp qua REST Client.
+Log build cuối sau khi nạp thêm mẫu BasicWebApi vào solution:
+[final-solution-build.txt](evidence/final-solution-build.txt).
 
 ## 8 Câu hỏi tự kiểm tra
 
