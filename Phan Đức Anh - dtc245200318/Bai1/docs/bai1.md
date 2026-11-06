@@ -28,6 +28,10 @@ khẳng định các bước đã được sinh viên tự gõ hoặc tự thao 
 Bằng chứng: [log kiểm thử](evidence/verification.txt),
 [Hello World](evidence/environment.txt), [build solution](evidence/EduSubmit-slnx-build.txt).
 
+Ảnh chụp log môi trường đã chạy trong VS Code:
+
+![Phiên bản SDK Git và Hello World](evidence/01-moi-truong.png)
+
 ## 2 MepDemo Bước 7
 
 Đã chạy cả 5 MEP và chạy riêng các tham số 1, 3, 4.
@@ -75,6 +79,10 @@ Bằng chứng: [log HTTP và kiểm tra](evidence/verification.txt),
 [log API](evidence/basic-api.txt). File thử tay:
 [requests.http](../samples/BasicWebApi/requests.http).
 
+Ảnh chụp log kiểm thử HTTP thật có các phản hồi 200, 201, 400:
+
+![Kết quả HTTP 200 201 400](evidence/02-http-200-201-400.png)
+
 ## 4 MiniDistributedSystem Bước 9
 
 Đã chạy API và Client ở hai tiến trình. Client in hai bài tập, GUID lượt nộp và
@@ -96,6 +104,12 @@ bị chiếm mà không sửa và biên dịch lại code.
 
 Bằng chứng: [API](evidence/mini-api.txt), [client lần 1](evidence/mini-client-1.txt),
 [client lần 2](evidence/mini-client-2.txt).
+
+Ảnh chụp hai file log của tiến trình API và Client:
+
+![Log Submission Api đang lắng nghe](evidence/05-mini-api.png)
+
+![Log Submission Client nhận bài tập và nộp bài](evidence/04-mini-client.png)
 
 ## 5 Thí nghiệm lỗi Bước 10
 
@@ -155,6 +169,8 @@ MiniDistributedSystem gốc để đối chiếu; bản trong samples được d
 Bằng chứng: [log client](evidence/edusubmit-client.txt),
 [log máy chủ](evidence/edusubmit-api.txt), [log kiểm thử](evidence/verification.txt).
 
+![Client EduSubmit nộp bài và đọc lại thành công](evidence/03-edusubmit-client.png)
+
 ## 7 Khó khăn và cách giải quyết
 
 - Đầu vào thiếu BasicWebApi và MiniDistributedSystem: dựng hai ví dụ từ đặc tả
@@ -178,6 +194,12 @@ Kết quả kiểm tra trên máy: `chay: 4.0`, `mr: 1.0`, API khởi động đ
 request và điều kiện chấm giữ nguyên. Đây là kiểm tra tương thích tại máy,
 không phải điểm chấm cuối cùng của giảng viên.
 Bằng chứng: [class-grader.json](evidence/class-grader.json).
+
+Các ảnh trên là ảnh chụp log chạy thật trong trình soạn thảo VS Code. Chưa có
+ảnh từ giao diện REST Client hoặc phiên dừng tại breakpoint: VS Code đang ở
+Restricted Mode và cần người dùng xác nhận Trust để bật các extension và debug.
+File requests.http và cấu hình debug đã chuẩn bị sẵn; các phản hồi HTTP được
+kiểm chứng tự động bằng HttpClient trong script.
 
 ## 8 Câu hỏi tự kiểm tra
 

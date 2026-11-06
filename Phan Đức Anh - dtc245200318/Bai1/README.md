@@ -101,3 +101,6 @@ Bai1 - dtc245200318 - Phan Đức Anh
 ```
 
 Nhật ký và bằng chứng chạy thử: [docs/bai1.md](docs/bai1.md).
+
+Đã mở [Pull Request số 8](https://github.com/PTUDPTK23/CNTTK23D/pull/8) với
+tiêu đề đúng mẫu. GitHub gắn nhãn **Đúng hạn** lúc 09:34 ngày 06/11/2026.
