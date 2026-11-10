@@ -5,13 +5,15 @@ MSSV: DTC245200604
 
 Lớp: CNTT K23D
 
+Ảnh minh chứng bên dưới được giữ từ lần thực hành ngày 06/11/2026. Sau khi sắp xếp lại bài vào `Nguyễn Việt Đô - dtc245200604/Bai1/`, đã build và kiểm thử lại ngày 11/11/2026; xem [kết quả kiểm tra lại](kiem-tra-nop-lai.md). Không dùng ảnh cũ để thay cho kết quả chạy mới.
+
 ## 1. Cài đặt
 
 - `dotnet --version`: **10.0.403**.
 - `git --version`: **git version 2.53.0.windows.3**.
 - VS Code có C# Dev Kit, C#, .NET Install Tool và REST Client.
 - Chạy `dotnet run` tại `samples/HelloPtudpt`: in **Hello, World!**.
-- Thư mục mở trong VS Code: `C:\Code_demo\EduSubmit-DTC245200604`.
+- Thư mục làm việc khi chụp ảnh ban đầu: `C:\Code_demo\EduSubmit-DTC245200604`. Khi lấy bài từ repository lớp, mở `Nguyễn Việt Đô - dtc245200604/Bai1/` trong VS Code.
 
 ![Kiểm tra .NET SDK, Git và HelloPtudpt](evidence/01-moi-truong.png)
 
@@ -169,7 +171,9 @@ Solution `EduSubmit.slnx` gồm `src/Submission.Api` và `src/Submission.Client`
 - **Đối chiếu phần chạy của bộ kiểm tra lớp:** Build, GET, POST và Client đạt `chay = 4.0`; đọc lại 200/404 và Client đọc lại đạt `mr = 1.0`. Đây là kết quả kiểm tra cục bộ các tiêu chí chạy, không phải điểm tổng hoặc xác nhận giảng viên đã chấm.
 
 ```powershell
-# Tại thư mục EduSubmit-DTC245200604
+# Từ thư mục gốc repository, vào đúng thư mục bài
+cd "Nguyễn Việt Đô - dtc245200604/Bai1"
+ dotnet build
  dotnet build EduSubmit.slnx
 
 # Terminal 1
@@ -212,5 +216,6 @@ Nhận xét: Các luồng đều sử dụng mô hình Request–Response. Clien
 | POST với mã sinh viên rỗng làm Client dừng. | API trả 400; `EnsureSuccessStatusCode()` phát sinh ngoại lệ vì phản hồi không thuộc 2xx. | Giữ kiểm tra tại API, gửi lại mã sinh viên hợp lệ; phân biệt lỗi HTTP với lỗi kết nối. |
 | Cần kiểm tra giá trị biến tại bước tạo lời chào. | Chỉ nhìn response chưa biết dữ liệu ở từng bước xử lý. | Đặt breakpoint, đọc `request.Name = "Binh"`, chạy từng dòng để kiểm tra `greeting.Id = 1`. |
 | Thí nghiệm có thể để lại code tạm. | Thêm bài thứ ba hoặc sửa `StudentCode` làm thay đổi trạng thái chương trình. | Khôi phục sau mỗi thí nghiệm, đối chiếu mẫu ban đầu và build/kiểm thử lại trước khi kết thúc. |
+| PR chưa được nhận dù đã có mã nguồn và nhật ký. | Các file nằm ngay dưới thư mục tên sinh viên, chưa ở trong `Bai1/` theo đường dẫn nộp bài. | Chuyển toàn bộ bài vào `Bai1/`, sửa tên `READNE.md` thành `README.md`, cập nhật hướng dẫn và chạy lại build/kiểm thử. |
 
 ![Kiểm tra build và chạy lại các ca thử EduSubmit](evidence/07-kiem-tra-cuoi.png)

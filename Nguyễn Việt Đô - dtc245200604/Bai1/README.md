@@ -12,9 +12,11 @@ Thư mục nộp bài của sinh viên Nguyễn Việt Đô - dtc245200604.
 
 ### Chạy EduSubmit
 
-Yêu cầu .NET SDK 10. Mở thư mục này trong VS Code, sau đó chạy:
+Yêu cầu .NET SDK 10. Từ thư mục gốc repository, vào đúng thư mục bài trước khi build:
 
 ```powershell
+cd "Nguyễn Việt Đô - dtc245200604/Bai1"
+dotnet build
 dotnet build EduSubmit.slnx
 
 # Terminal 1
