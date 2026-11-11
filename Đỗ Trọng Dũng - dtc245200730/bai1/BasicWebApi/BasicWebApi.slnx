@@ -1,6 +1,0 @@
-<Solution>
-  <Folder Name="/src/">
-    <File Path="requests.http" />
-    <Project Path="src/BasicWebApi/BasicWebApi.csproj" />
-  </Folder>
-</Solution>
