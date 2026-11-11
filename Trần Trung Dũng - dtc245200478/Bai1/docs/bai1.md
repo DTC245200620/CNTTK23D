@@ -11,7 +11,7 @@ Họ tên: Trần Trung Dũng · MSSV: dtc245200478 · Lớp: (chưa có thông 
 - Đã tạo và chạy ứng dụng Hello World theo bước 4; kết quả `Hello, World!`.
 - Windows cài sẵn .NET 10 và Git. Chưa xác nhận danh sách extension trong VS Code.
 
-Ảnh chụp kết quả bước 4: chưa được lưu.
+![Kết quả bước 4: .NET, Git và Hello World](image-1.png)
 
 ## 2. MepDemo (Bước 7)
 
@@ -24,13 +24,13 @@ Họ tên: Trần Trung Dũng · MSSV: dtc245200478 · Lớp: (chưa có thông 
   4. Publish–subscribe: bên phát công bố sự kiện, mọi subscriber phù hợp đều nhận được.
   5. Streaming/push: bên gửi đẩy liên tiếp các cập nhật đến bên nhận.
 
-Ảnh chụp MepDemo: chưa được lưu.
+![Kết quả chạy 5 MEP](image-2.png)
 
 ## 3. BasicWebApi (Bước 8)
 
 REST Client thực hiện `GET /` (200), `POST /greetings` với tên Binh (201 Created, Location `/greetings/1`) và POST tên rỗng (400 Bad Request). Đã bổ sung `language=ja`; `/hello/An?language=ja` trả `Konnichiwa, An!`.
 
-Ảnh chụp REST Client với 200, 201 và 400: chưa được lưu.
+![BasicWebApi với các phản hồi 200, 201 và 400](image-3.png)
 
 Trả lời mục 8.4:
 
@@ -42,7 +42,7 @@ Trả lời mục 8.4:
 
 Hai tiến trình chạy thành công: API lắng nghe cổng 5000; client lấy hai bài tập, gửi lượt nộp và nhận mã lượt nộp mới cùng trạng thái `received`.
 
-Ảnh chụp hai terminal API và Client: chưa được lưu.
+![MiniDistributedSystem: kết quả Client](image-4.png)
 
 1. Client gọi `GET http://localhost:5000/api/assignments` (API trả 200), rồi `POST http://localhost:5000/api/submissions` với JSON lượt nộp (API trả 201 Created).
 2. Client không tham chiếu mã nguồn API. Hai bên thống nhất qua hợp đồng HTTP: method, URL, JSON request/response và mã trạng thái.
@@ -61,11 +61,11 @@ Sau thí nghiệm a và c, code mẫu MiniDistributedSystem đã được đưa 
 
 ## 6. Dự án EduSubmit tự làm (Bước 11–12)
 
-Solution `Bai1/EduSubmit.slnx` gồm `Submission.Api` và `Submission.Client`, không project-reference lẫn nhau. API có GET `/`, GET `/api/assignments`, POST `/api/submissions` (kiểm tra dữ liệu, 400 nếu không hợp lệ; 201 và Location nếu hợp lệ) cùng phần mở rộng GET `/api/submissions/{id:guid}` (200 khi tìm thấy, 404 nếu không). Client đọc danh sách, gửi lượt nộp, kiểm tra mã phản hồi và đọc lại lượt vừa tạo. `Bai1/requests.http` có các ca 200, 201, 400 và GET lượt nộp 200/404.
+Solution `EduSubmit.slnx` gồm `Submission.Api` và `Submission.Client`, không project-reference lẫn nhau. API có GET `/`, GET `/api/assignments`, POST `/api/submissions` (kiểm tra dữ liệu, 400 nếu không hợp lệ; 201 và Location nếu hợp lệ) cùng phần mở rộng GET `/api/submissions/{id:guid}` (200 khi tìm thấy, 404 nếu không). Client đọc danh sách, gửi lượt nộp, kiểm tra mã phản hồi và đọc lại lượt vừa tạo. `requests.http` có các ca 200, 201, 400 và GET lượt nộp 200/404.
 
 **Đối chiếu code mẫu:** đã xem `Program.cs` của BasicWebApi và MiniDistributedSystem để hiểu pattern Minimal API, hợp đồng record và cách gọi `HttpClient`; vì thế phần này không phải bài tự gõ hoàn toàn không nhìn mẫu. Mã EduSubmit được triển khai riêng và có thêm kiểm tra assignment tồn tại cùng endpoint tra cứu lịch sử.
 
-Ảnh chụp kết quả EduSubmit: chưa được lưu.
+![Client EduSubmit nộp và đọc lại lượt nộp](image-5.png)
 
 Luồng thông điệp:
 
@@ -93,4 +93,3 @@ Client <--(HTTP 200 + JSON lượt nộp)-------- Api
 - `dotnet build` thành công cho BasicWebApi, MiniDistributedSystem, EduSubmit trong `Code_demo` và solution nộp `Bai1/EduSubmit.slnx` (không có cảnh báo hay lỗi build).
 - Kiểm tra HTTP đã quan sát được BasicWebApi 200/201/400 và EduSubmit 200/201/400/404; client EduSubmit đọc lại lượt nộp vừa tạo thành công.
 - Fork đã được đồng bộ với `upstream/main`; solution và hai project đã được thêm vào `Bai1` để build ngay tại thư mục nộp.
-- Ảnh chụp màn hình chưa được lưu vào nhật ký trong lượt thao tác này; các liên kết ảnh ở trên cần được bổ sung trước khi nộp.
