@@ -24,6 +24,18 @@ app.MapGet("/", () => Results.Ok(new
 // GET /api/products : danh sach san pham
 app.MapGet("/api/products", () => Results.Ok(products));
 
+// GET /api/products/{id:int} : chi tiet san pham
+app.MapGet("/api/products/{id:int}", (int id) =>
+{
+    var product = products.FirstOrDefault(p => p.Id == id);
+
+    return product is null
+        ? Results.NotFound(new ApiError(
+            "PRODUCT_NOT_FOUND",
+            "Khong tim thay san pham."))
+        : Results.Ok(product);
+});
+
 app.Run();
 
 // DTO: hinh dang du lieu di qua mang
@@ -32,3 +44,5 @@ record ProductDto(
     string Name,
     string Description,
     decimal Price);
+
+record ApiError(string Code, string Message);
