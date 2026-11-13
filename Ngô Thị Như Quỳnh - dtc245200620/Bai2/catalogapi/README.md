@@ -1,35 +1,50 @@
-# Catalog API – Phần 2
+# Bài 2 – Catalog API (Phần 2)
 
-## Bước 9 – Thí nghiệm phân tán
+## Chạy bài
 
-Phiên kiểm thử dùng cổng `5101` vì cổng `5100` đang có một phiên Catalog API khác.
+Trong thư mục catalogapi, chạy:
 
-| Thí nghiệm | Kết quả quan sát |
+```powershell
+dotnet build CatalogApi.slnx
+dotnet run --project src/Catalog.Api --no-launch-profile --urls http://localhost:5100
+```
+
+Mở terminal khác để chạy client:
+
+```powershell
+dotnet run --project src/Catalog.Client -- http://localhost:5100
+```
+
+Có 8 request để thử trong `requests.http`.
+
+## Bước 9
+
+Lúc thử mình dùng cổng 5101 vì 5100 đang bận.
+
+| Thử | Kết quả |
 | --- | --- |
-| Chạy máy khách lần hai khi máy chủ vẫn chạy | Máy khách liệt kê 4 sản phẩm, tạo sản phẩm `[5]` và nhận `Location: /api/products/5`. |
-| Dừng máy chủ rồi chạy máy khách | Máy khách báo `HttpRequestException`. Kết nối đến `localhost:5101` bị từ chối (`SocketException` 10061). |
-| Khởi động lại máy chủ rồi gọi `GET /api/products` | API trả `200 OK` với 3 sản phẩm mẫu có ID `1`, `2`, `3`. |
-| Chạy máy khách với cổng `5999` | Máy khách báo `HttpRequestException`. Kết nối đến `localhost:5999` bị từ chối (`SocketException` 10061). |
+| Chạy client lần 2 | Thấy 4 sản phẩm, thêm được sản phẩm số 5. |
+| Tắt API rồi chạy client | Kết nối cổng 5101 bị từ chối. |
+| Mở lại API | Còn 3 sản phẩm mẫu. |
+| Chạy client ở cổng 5999 | Kết nối bị từ chối. |
 
-### Câu hỏi về hệ phân tán
+1. Gọi HTTP có thể lỗi nếu server tắt hoặc sai cổng.
+2. Danh sách lưu trong RAM của server nên tắt API thì mất dữ liệu đã thêm.
+3. Nếu đổi DTO bên client thành `Ten`, JSON vẫn gửi `name` nên `Ten` sẽ là `null`.
 
-- **A.** Hàm nội bộ chạy trong cùng tiến trình. Yêu cầu HTTP cần kết nối đến tiến trình máy chủ, nên kết nối có thể bị từ chối khi API dừng hoặc khi máy khách dùng sai cổng.
-- **B.** Danh sách `products` nằm trong bộ nhớ của `Catalog.Api`. Các lần chạy máy khách đọc cùng trạng thái khi máy chủ còn chạy. Khởi động lại API tạo lại danh sách mẫu.
-- **C.** Nếu đổi thuộc tính DTO thành `Ten` và sửa các chỗ tham chiếu tương ứng, mã máy khách vẫn biên dịch. Khi đọc JSON, `Ten` nhận `null` vì API gửi trường `name`.
+## Bước 10
 
-## Bước 10 – Phiếu tự kiểm tra
+| # | Kiểm tra | Kết quả |
+| --- | --- | --- |
+| 1 | GET / | 200 |
+| 2 | GET danh sách | 200, 3 sản phẩm lúc mới chạy |
+| 3 | GET sản phẩm 1 | 200 |
+| 4 | GET sản phẩm 999 | 404, `PRODUCT_NOT_FOUND` |
+| 5 | GET sản phẩm abc | 404, body rỗng |
+| 6 | POST hợp lệ | 201, Location `/api/products/4` |
+| 7 | POST giá âm | 400, `INVALID_PRODUCT` |
+| 8 | POST thiếu Content-Type | 415 |
+| 9 | Chạy client | Xem danh sách, thêm mới, xem chi tiết, thử lỗi 400 |
+| 10 | Chạy client khi API tắt | Lỗi kết nối |
 
-| STT | Yêu cầu | Kết quả thực tế | Tự đánh giá |
-| --- | --- | --- | --- |
-| 1 | `GET /` | `200 OK`, JSON báo API đang chạy | ✓ |
-| 2 | `GET /api/products` | `200 OK`, 3 sản phẩm mẫu | ✓ |
-| 3 | `GET /api/products/1` | `200 OK`, sản phẩm `[1]` | ✓ |
-| 4 | `GET /api/products/999` | `404 Not Found` với `ApiError` có mã `PRODUCT_NOT_FOUND` | ✓ |
-| 5 | `GET /api/products/abc` | `404 Not Found`, body rỗng | ✓ |
-| 6 | `POST` sản phẩm hợp lệ | `201 Created`, `Location: /api/products/4` | ✓ |
-| 7 | `POST` sản phẩm có giá âm | `400 Bad Request` với `ApiError` có mã `INVALID_PRODUCT` | ✓ |
-| 8 | `POST` thiếu `Content-Type` | `415 Unsupported Media Type` | ✓ |
-| 9 | Máy khách chạy đủ 4 nấc | Liệt kê sản phẩm, tạo `[4]`, đọc chi tiết `[1]`, nhận lỗi `400` khi gửi dữ liệu sai | ✓ |
-| 10 | Chạy máy khách khi máy chủ dừng | `HttpRequestException` do kết nối đến `localhost:5101` bị từ chối | ✓ |
-
-`CatalogApi.slnx` build thành công với .NET SDK `10.0.403`, 0 cảnh báo và 0 lỗi. Có thể xem các mốc thực hành bằng `git log --oneline`.
+Build không lỗi, đạt 10/10 mục.
