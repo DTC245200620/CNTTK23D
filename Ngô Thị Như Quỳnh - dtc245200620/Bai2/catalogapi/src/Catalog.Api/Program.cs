@@ -1,7 +1,8 @@
+
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-// Du lieu mau trong bo nho
+ // Du lieu mau trong bo nho
 var products = new List<ProductDto>
 {
     new(1, "Giao trinh Lap trinh phan tan",
@@ -14,6 +15,7 @@ var products = new List<ProductDto>
         "Bo bai tap kem loi giai", 120000)
 };
 
+
 // GET / : kiem tra may chu dang chay
 app.MapGet("/", () => Results.Ok(new
 {
@@ -21,10 +23,11 @@ app.MapGet("/", () => Results.Ok(new
     status = "running"
 }));
 
-// GET /api/products : danh sach san pham
+ // GET /api/products : danh sach san pham
 app.MapGet("/api/products", () => Results.Ok(products));
 
-// GET /api/products/{id:int} : chi tiet san pham
+
+ // GET /api/products/{id:int} : chi tiet san pham
 app.MapGet("/api/products/{id:int}", (int id) =>
 {
     var product = products.FirstOrDefault(p => p.Id == id);
@@ -36,6 +39,33 @@ app.MapGet("/api/products/{id:int}", (int id) =>
         : Results.Ok(product);
 });
 
+ // POST /api/products : tao san pham moi
+app.MapPost("/api/products", (CreateProductRequest request) =>
+{
+    // Kiem tra du lieu dau vao
+    if (string.IsNullOrWhiteSpace(request.Name) || request.Price <= 0)
+    {
+        return Results.BadRequest(new ApiError(
+            "INVALID_PRODUCT",
+            "Ten san pham khong duoc de trong va gia phai lon hon 0."));
+    }
+
+    // Tao san pham moi
+    var product = new ProductDto(
+        Id: products.Max(p => p.Id) + 1,
+        Name: request.Name.Trim(),
+        Description: request.Description?.Trim() ?? "",
+        Price: request.Price
+    );
+
+    // Them vao danh sach
+    products.Add(product);
+
+    // Tra ve 201 Created
+    return Results.Created($"/api/products/{product.Id}", product);
+});
+
+
 app.Run();
 
 // DTO: hinh dang du lieu di qua mang
@@ -43,6 +73,11 @@ record ProductDto(
     int Id,
     string Name,
     string Description,
+    decimal Price);
+
+record CreateProductRequest(
+    string Name,
+    string? Description,
     decimal Price);
 
 record ApiError(string Code, string Message);
