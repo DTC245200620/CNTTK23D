@@ -1,64 +1,86 @@
-# Bài 2 - Catalog API
+# Bài 2 - RESTful API
 
-## Lệnh đã chạy
+Bài gồm `edusubmit` là phần nộp chính và `catalogapi` là phần thực hành Catalog.
 
-Trong thư mục `catalogapi`:
+## EduSubmit
+
+### Cách chạy
+
+Trong thư mục `edusubmit`:
 
 ```powershell
-dotnet build CatalogApi.slnx
-dotnet run --project src/Catalog.Api --no-launch-profile --urls http://localhost:5100
+dotnet build RestfulClientServer.slnx
+dotnet run --project src/Submission.Api --no-launch-profile --urls http://localhost:5000
 ```
 
 Mở terminal khác rồi chạy client:
 
 ```powershell
-dotnet run --project src/Catalog.Client -- http://localhost:5100
+dotnet run --project src/Submission.Client -- http://localhost:5000
 ```
 
-## Kết quả chạy
+Mở `requests.http` bằng REST Client và bấm **Send Request** để thử 7 request.
 
-Build thành công, không có lỗi:
+### Kết quả
 
-![Kết quả build](images/build.png)
+Build không có lỗi:
 
-Client chạy đủ 4 phần: xem danh sách, thêm sản phẩm, xem chi tiết và thử dữ liệu sai:
+![Build EduSubmit](images/edusubmit-build.png)
 
-![Kết quả chạy client](images/client.png)
+Client chạy đủ 4 phần: xem bài tập, nộp bài, đọc lại và thử gửi sai:
 
-Kết quả 8 request:
+![Client EduSubmit](images/edusubmit-client.png)
 
-![Kết quả các request](images/requests.png)
+Các mã trạng thái đã thử:
 
-## Bảng phá thử
+![Kiểm thử EduSubmit](images/edusubmit-requests.png)
+
+### Bảng phá thử
 
 | Ca thử | Mong đợi | Thực tế |
 | --- | --- | --- |
-| `GET /` | 200 | 200 |
-| `GET /api/products` | 200, có 3 sản phẩm lúc mới chạy | 200, có 3 sản phẩm |
-| `GET /api/products/1` | 200 | 200 |
-| `GET /api/products/999` | 404, `PRODUCT_NOT_FOUND` | 404, `PRODUCT_NOT_FOUND` |
-| `GET /api/products/abc` | 404, body rỗng | 404, body rỗng |
-| POST sản phẩm hợp lệ | 201, có `Location` | 201, `Location: /api/products/4` |
-| POST giá âm | 400, `INVALID_PRODUCT` | 400, `INVALID_PRODUCT` |
+| `GET /api/assignments` | 200, mảng bài tập | 200 |
+| `GET /api/assignments/1` | 200 | 200 |
+| `GET /api/assignments/999` | 404, `ASSIGNMENT_NOT_FOUND` | 404, đúng mã lỗi |
+| POST bài 1, dữ liệu hợp lệ | 201, có `Location` | 201, có `Location` |
+| POST bài 1, body rỗng | 400, `INVALID_SUBMISSION` | 400, đúng mã lỗi |
+| POST bài 999 | 404, `ASSIGNMENT_NOT_FOUND` | 404, đúng mã lỗi |
 | POST thiếu `Content-Type` | 415 | 415 |
+| POST JSON hỏng | 400 | 400 |
+| POST thiếu `repositoryUrl` | 400, `INVALID_SUBMISSION` | 400, đúng mã lỗi |
+| `PUT /api/assignments/1` | 405 | 405 |
+| POST bài 3 đã đóng | 400, `ASSIGNMENT_CLOSED` | 400, đúng mã lỗi |
+| GET lượt nộp vừa tạo | 200 | 200 |
+| GET lượt nộp không có | 404, `SUBMISSION_NOT_FOUND` | 404, đúng mã lỗi |
 
-## Trả lời 3 câu hỏi
+### Trả lời 3 câu hỏi
 
-### 1. Vì sao URI dùng danh từ, còn hành động do phương thức HTTP đảm nhận?
+#### 1. Vì sao URI dùng danh từ, còn hành động do phương thức HTTP đảm nhận?
 
-URI dùng để chỉ tài nguyên, ví dụ `/api/products`. Việc muốn làm gì với tài nguyên được thể hiện bằng phương thức HTTP: GET để đọc, POST để tạo. Cách này giúp địa chỉ dễ hiểu và đúng kiểu REST.
+URI dùng để chỉ tài nguyên như `assignments` và `submissions`. Hành động dùng phương thức HTTP: GET để đọc, POST để tạo. Ví dụ nộp bài dùng `POST /api/assignments/1/submissions`, không dùng `/submitAssignment`.
 
-### 2. Stateless thể hiện ở đâu trong code đã viết?
+#### 2. Stateless thể hiện ở đâu trong code?
 
-Mỗi request có đủ thông tin để server xử lý, server không lưu phiên đăng nhập hay trạng thái riêng của client. Danh sách `products` là dữ liệu của tài nguyên trên server, không phải session của client.
+Mỗi request có đủ dữ liệu để server xử lý. `assignmentId` nằm trên URI, còn `studentCode` và `repositoryUrl` nằm trong body. Server không cần nhớ phiên của client giữa hai lần gọi.
 
-### 3. Vì sao client và server mỗi bên khai báo DTO riêng mà vẫn khớp nhau?
+#### 3. Vì sao client và server khai báo DTO riêng mà vẫn khớp nhau?
 
-Hai bên trao đổi bằng JSON. Chỉ cần tên thuộc tính và kiểu dữ liệu khớp với hợp đồng JSON thì bộ chuyển đổi sẽ đọc được, dù hai record DTO nằm ở hai project khác nhau.
+Hai bên trao đổi bằng JSON nên chỉ cần tên trường và kiểu dữ liệu giống nhau. DTO là hợp đồng dữ liệu, không cần dùng chung một project hay một lớp C#.
 
-## Thử nghiệm bước 9
+## Catalog API
 
-- Chạy client lần hai: thấy 4 sản phẩm và thêm sản phẩm số 5.
-- Tắt API rồi chạy client: kết nối bị từ chối.
-- Mở lại API: danh sách còn 3 sản phẩm mẫu vì dữ liệu chỉ lưu trong bộ nhớ.
-- Chạy client sai cổng 5999: kết nối bị từ chối.
+Phần Catalog vẫn nằm trong thư mục `catalogapi`. Chạy bằng cổng 5100:
+
+```powershell
+dotnet build CatalogApi.slnx
+dotnet run --project src/Catalog.Api --no-launch-profile --urls http://localhost:5100
+dotnet run --project src/Catalog.Client -- http://localhost:5100
+```
+
+Kết quả cũ của phần Catalog:
+
+![Build Catalog](images/build.png)
+
+![Client Catalog](images/client.png)
+
+![Kiểm thử Catalog](images/requests.png)

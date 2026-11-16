@@ -101,4 +101,3 @@ record SubmissionDto(
     DateTimeOffset ReceivedAt);
 
 record ApiError(string Code, string Message);
-
