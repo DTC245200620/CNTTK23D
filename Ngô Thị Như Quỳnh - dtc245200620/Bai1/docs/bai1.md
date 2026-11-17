@@ -145,7 +145,7 @@ Client --(HTTP GET /api/submissions/{id})--> API: request–response
 Client <--(200 OK + lượt nộp JSON / 404 Not Found)-- API
 ```
 
-**Lưu ý khi kiểm thử:** `repositoryUrl` đang là địa chỉ minh họa `https://example.com/edu-submit-demo`, không phải repository đã nộp. Phần tạo Git repository, commit, tag `bai1` và đẩy GitHub chưa thực hiện.
+**Lưu ý khi kiểm thử:** `repositoryUrl` dùng địa chỉ fork `https://github.com/DTC245200620/CNTTK23D`. Mã nguồn, solution và file kiểm thử nằm trong thư mục `Bai1/`.
 
 ## 7. Khó khăn gặp phải và cách giải quyết
 
